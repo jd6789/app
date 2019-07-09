@@ -1,0 +1,64 @@
+
+    <!-- 右 -->
+    <div class="content">
+        <div class="header">
+            <h1 class="page-title">订单详情</h1>
+        </div>
+        
+        <div class="well">
+            订单编号：{$order.0.order_sn}
+        </div>
+
+        <div class="well">
+            <!-- table -->
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>商品id</th>
+                    <th>商品名称</th>
+                    <th>商品logo</th>
+                    <th>商品价格</th>
+                    <th>购买数量</th>
+                    <th>商品属性</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $order as $v}
+                <tr class="success">
+                    <td>{$v.id}</td>
+                    <td>{$v.goods_id}</td>
+                    <td>{$v.goods_name}</td>
+                    <td><img src="{$v.goods_logo}" style="width: 50px;height: 50px"></td>
+                    <td>{$v.goods_price}</td>
+                    <td style="text-align: center;line-height: 50px">{$v.number}</td>
+                    <td>
+                        {foreach $v.attr as $vv}
+                            {$vv.attr_name}:{$vv.attr_value}<br />
+                        {/foreach}
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);"> 编辑 </a>
+                        <a href="javascript:void(0);" onclick="if(confirm('确认删除？')) location.href='#'"> 删除 </a>
+                    </td>
+                </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+        <div class="well">
+            收货地址：{$order.0.consignee_address}
+        </div>
+        <div class="well">
+            物流信息：
+            {foreach $logistics as $v}
+                {$v.time}--------{$v.content}<br>
+            {/foreach}
+        </div>
+        <!-- footer -->
+        <footer>
+            <hr>
+            <p>© 2019 <a href="javascript:void(0);" target="_blank">{$Think.session.manager_info.username}</a></p>
+        </footer>
+    </div>
