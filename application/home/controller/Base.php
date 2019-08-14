@@ -4,7 +4,7 @@ namespace app\home\controller;
 
 use think\Controller;
 use think\Request;
-
+use think\cache\driver\Redis;
 class Base extends Controller
 {
      public function __construct()

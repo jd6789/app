@@ -15,7 +15,7 @@
 
 return [
     // 驱动方式
-    'type'   => 'File',
+    'type'   => 'file',
     // 缓存保存目录
     'path'   => '../runtime/cache',
     // 缓存前缀

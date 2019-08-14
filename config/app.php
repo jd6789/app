@@ -142,7 +142,7 @@ return [
     'show_error_msg'         => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
     'exception_handle'       => '',
-    //'__INDEX_IMG__'     => 'D:\project2\shop\public',
+
 
     //支付方式
     'pay_type' => [
