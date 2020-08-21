@@ -7,6 +7,7 @@ class Goods extends Model
 {
      use SoftDelete;
      protected $table = 'tpshop_goods';
+	 //protected $name = 'goods';
      //设置软删除字段名称
      protected $deleteTime = 'delete_time';
 

@@ -15,7 +15,7 @@ class Category extends Base
             //id参数格式错误
             $res = [
                 'code' => 0,
-                'msg' => 'error'
+                'msg' => '参数错误'
             ];
             return json($res);
         }

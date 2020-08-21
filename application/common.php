@@ -124,3 +124,28 @@ if(!function_exists('encpypt_phone'))
            return substr($phone,0,3) .'****'.substr($phone,7);
      }
 }
+
+if(!function_exists('http_request')) {
+    function http_request($url, $data = null)
+    {
+        //第一步：创建curl
+        $ch = curl_init();
+        //第二步：设置curl
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //禁止服务器端校检SSL证书
+        //判断$data数据是否为空
+        if (!empty($data)) {
+            //模拟发送POST请求
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //以文档流的形式返回数据
+        //第三步：执行curl
+        $output = curl_exec($ch);
+        //第四步：关闭curl
+        curl_close($ch);
+        //把$output当做返回值返回
+        return $output;
+    }
+}

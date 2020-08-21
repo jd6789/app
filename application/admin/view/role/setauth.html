@@ -24,7 +24,6 @@
                         <input type="checkbox" name="id[]" value="{$v.id}"
                              {in name="v.id" value="$role_auth"}checked="checked"{/in}>{$v.auth_name}
                         </td>
-
                         <td>
                             {foreach $auth_son as $vv}
                             {if condition="($vv.pid == $v.id)"}

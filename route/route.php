@@ -16,4 +16,4 @@
 //Route::get('goods/:id', 'goods/read')->pattern(['id' => '\d+']);
 
 
-//Route::rule('goods/:id', 'home/goods/read', 'GET', ['ext' => 'html'], ['id' => '\d+']);
+Route::rule('goods/:id', 'home/goods/read', 'GET', ['ext' => 'html'], ['id' => '\d+']);

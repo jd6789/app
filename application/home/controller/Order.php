@@ -65,7 +65,7 @@ class Order extends Base
      */
     public function save(Request $request)
     {
-        $data = $request->param();//dump($data);die;
+        $data = $request->param();
         //参数检验
         //生成订单编号
         $order_sn = mt_rand(100000,999999).time();
@@ -119,9 +119,9 @@ class Order extends Base
                 //PRG模式  模拟表单提交
                 $html = "<form id='alipayment' action='/plugins/alipay/pagepay/pagepay.php' method='post' style='display:none'>
 <input id='WIDout_trade_no' name='WIDout_trade_no' value='$order_sn' /> 
-<input id='WIDsubject' name='WIDsubject' value='品优购商城订单'/>
+<input id='WIDsubject' name='WIDsubject' value=''/>
 <input id='WIDtotal_amount' name='WIDtotal_amount' value='$order_amount' />
-<input id='WIDbody' name='WIDbody' value='品优购商城的商品，没有货可发'/>
+<input id='WIDbody' name='WIDbody' value=''/>
 </form><script>document.getElementById('alipayment').submit();</script>";
                 echo $html;
             break;

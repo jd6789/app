@@ -34,6 +34,7 @@ class Cart extends Base
     {
         $data = request()->param();
         //检测参数
+        //检查登录
         $user = session('user_info');
         if($user){
             //已登录

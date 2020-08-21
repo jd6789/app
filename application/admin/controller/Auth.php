@@ -30,7 +30,7 @@ class Auth extends Base
      */
     public function save(Request $request)
     {
-         $data = $request->param();
+        $data = $request->param();
         //定义验证规则
         $rule = [
             'auth_name'=>'require'

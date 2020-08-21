@@ -114,4 +114,21 @@ class Login extends Controller
          session(null);
          $this->redirect('home/login/login');
     }
+    
+    //小程序登录
+    public function minapp(Request $request){
+        $code = $request->get('code');
+        $appid = 'wx8485b248692fb2ff';
+        $screct = 'a93976cf110ba853749f5d2758b9f6b6';
+        $url = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
+        $url = sprintf($url,$appid,$screct,$code);
+        $res = http_request($url);
+        return $res;
+    }
+
+    //qq登录回调
+    public function qqcallback()
+    {
+         echo 'I am here';
+    }
 }

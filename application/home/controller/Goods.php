@@ -24,7 +24,7 @@ class Goods extends Base
      */
     public function create()
     {
-        //
+
     }
 
     /**

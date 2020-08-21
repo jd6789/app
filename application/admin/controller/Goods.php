@@ -33,8 +33,8 @@ class Goods extends Base
             'goods_name'=>'require',
             'goods_price'=>'require|float|gt:0',
             'goods_number'=>'require|integer|gt:0',
-            'cate_id'=>'require',
-            'type_id'=>'require'
+            'cate_id'=>'require|integer|gt:0',
+            'type_id'=>'require|integer|gt:0'
         ];
         //定义提示信息
         $msg = [
@@ -79,7 +79,7 @@ class Goods extends Base
         if($request->isGet()){
             $goods_id = $request->param('id');
             //查询当前商品信息
-            $info = \app\admin\model\Goods::find($goods_id);
+            $info = \app\admin\model\Goods::find($goods_id);//dump($info);die;
             //查询所有的一级分类信息
             $cate_one_all = Category::where('pid',0)->select();
             //查询商品所属的三级分类信息（pid 就是所属的二级分类id） $cate_three['pid']
@@ -92,13 +92,15 @@ class Goods extends Base
             $cate_three_all = \app\admin\model\Category::where('pid', $cate_three['pid'])->select();
             //查询商品相册
             $goodspics = \app\admin\model\Goodspics::where('goods_id',$goods_id)->select();
+            $type = \app\admin\model\Type::select();
             return view('edit', [
                 'info' => $info,
                 'cate_one_all' => $cate_one_all,
                 'cate_two_all' => $cate_two_all,
                 'cate_three_all' => $cate_three_all,
                 'cate_two' => $cate_two,
-                'goodspics'=> $goodspics
+                'goodspics'=> $goodspics,
+                'type'=> $type
             ]);
         }else{
             $data = $request->param();//接收数据
@@ -128,7 +130,7 @@ class Goods extends Base
                 $error = $validate->getError();
                 $this->error($error);
             }
-//            $file = $request->file('goods_logo');
+//            $file = $request->file('logo');//dump($file);die;
 //            //判断有没有上传图片
 //            if($file){
 //                $data['goods_logo'] = $this->upload_logo();//缩略图路径
@@ -138,6 +140,7 @@ class Goods extends Base
             $this->upload_pics($goods_id);
             $this->success('修改成功','index');
         }
+
     }
 
     private function upload_logo(){

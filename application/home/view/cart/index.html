@@ -8,7 +8,7 @@
 <div class="cart py-container">
 <!--All goods-->
 <div class="allgoods">
-<h4>全部商品<span>11</span></h4>
+<h4>全部商品<span></span></h4>
 <div class="cart-main">
 <div class="yui3-g cart-th">
 <div class="yui3-u-1-4"><input type="checkbox" name="" id="" value="" /> 全部</div>
@@ -19,13 +19,8 @@
 <div class="yui3-u-1-8">操作</div>
 </div>
 <div class="cart-item-list">
-<div class="cart-shop">
-<input type="checkbox" name="" id="" value="" />
-<span class="shopname self">传智自营</span>
-</div>
 <div class="cart-body">
 {foreach $data as $v}
-
 <div class="cart-list">
 <ul class="goods-list yui3-g" cart_id="{$v.id}" goods_id="{$v.goods_id}" goods_attr_ids="{$v.goods_attr_ids}" number="{$v.number}">
 	<li class="yui3-u-1-24">
@@ -83,27 +78,7 @@
 </div>
 </div>
 <div class="clearfix"></div>
-<div class="deled">
-<span>已删除商品，您可以重新购买或加关注：</span>
-<div class="cart-list del">
-<ul class="goods-list yui3-g">
-<li class="yui3-u-1-2">
-<div class="good-item">
-	<div class="item-msg">Apple Macbook Air 13.3英寸笔记本电脑 银色（Corei5）处理器/8GB内存</div>
-</div>
-</li>
-<li class="yui3-u-1-6"><span class="price">8848.00</span></li>
-<li class="yui3-u-1-6">
-<span class="number">1</span>
-</li>
-<li class="yui3-u-1-8">
-<a href="#none">重新购买</a>
-<a href="#none">移到我的关注</a>
-</li>
-</ul>
-</div>
-</div>
-<div class="liked">
+<div class="liked" style="margin-top: 20px">
 <ul class="sui-nav nav-tabs">
 <li class="active">
 <a href="#index" data-toggle="tab">猜你喜欢</a>

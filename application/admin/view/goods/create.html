@@ -59,14 +59,7 @@
                             <option value="{$v.id}">{$v.type_name}</option>
                             {/foreach}
                         </select>
-                        <div id="attrs">
-                            <!--<label>商品品牌：</label>-->
-                            <!--<input type="text" name="" value="" class="input-xlarge">-->
-                            <!--<label>商品型号：</label>-->
-                            <!--<input type="text" name="" value="" class="input-xlarge">-->
-                            <!--<label>商品重量：</label>-->
-                            <!--<input type="text" name="" value="" class="input-xlarge">-->
-                        </div>
+                        <div id="attrs"></div>
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="pics">
@@ -102,6 +95,9 @@
                      $.each(res.data,function(i,v){
                          str += '<option value="' + v.id + '">' + v.cate_name + '</option>';
                      });
+                 }else{
+                     alert(res.msg);
+                     return false;
                  }
                  $('#cate_two').html(str)
              }
@@ -125,6 +121,9 @@
                    $.each(res.data,function(i,v){
                        str += '<option value="' + v.id + '">' + v.cate_name + '</option>';
                    });
+               }else{
+                   alert(res.msg);
+                   return false;
                }
                $('#cate_three').html(str)
            }
@@ -147,44 +146,45 @@
         });
     });
 
-       //商品类型切换查询属性信息
-       $('#type').change(function(){
-        var type_id = $(this).val()
-        if(type_id == ''){
-            return false;
-        }
-        $.ajax({
-            "url":"{:url('admin/attribute/getAttr')}",
-            "data":{id:type_id},
-            'type':'post',
-            'dataType':'json',
-            success:function(res){
-                var attrs = res.data;
-                var str = '';
-                if(res.code == 200){
-                      $.each(attrs,function(i,v){
-                            str += '<label> ' + v.attr_name + '：</label>';
-                            if(v.attr_input_type == '输入框'){
-                                str += '<input type="text" name="attr_value['+v.id+'][]" value="" class="input-xlarge">'
-                            }else if(v.attr_input_type == '多选框') {
-                                $.each(v.attr_values,function (index,value) {
-                                    str += '<input type="checkbox" value="'+value+'" name="attr_value['+v.id+'][]"/>' + value
-                                })
-                            }else{
-                                //下拉列表
-                                str += '<select name="attr_value['+ v.id +'][]">';
-                                //遍历v.attr_values可选值
-                                $.each(v.attr_values, function(index, value){
-                                    //value 就是一个可选值
-                                    str += '<option value="' + value + '">' + value + '</option>';
-                                });
-                                str += '</select>';
-                            }
-                      })
-                    $('#attrs').html(str)
-                }
+   //商品类型切换查询属性信息
+   $('#type').change(function(){
+    var type_id = $(this).val()
+    if(type_id == ''){
+        $('#attrs').empty();
+        return false;
+    }
+    $.ajax({
+        "url":"{:url('admin/attribute/getAttr')}",
+        "data":{id:type_id},
+        'type':'post',
+        'dataType':'json',
+        success:function(res){
+            var attrs = res.data;
+            var str = '';
+            if(res.code == 200){
+                  $.each(attrs,function(i,v){
+                        str += '<label> ' + v.attr_name + '：</label>';
+                        if(v.attr_input_type == '输入框'){
+                            str += '<input type="text" name="attr_value['+v.id+'][]" value="" class="input-xlarge">'
+                        }else if(v.attr_input_type == '多选框') {
+                            $.each(v.attr_values,function (index,value) {
+                                str += '<input type="checkbox" value="'+value+'" name="attr_value['+v.id+'][]"/>' + value
+                            })
+                        }else{
+                            //下拉列表
+                            str += '<select name="attr_value['+ v.id +'][]">';
+                            //遍历v.attr_values可选值
+                            $.each(v.attr_values, function(index, value){
+                                //value 就是一个可选值
+                                str += '<option value="' + value + '">' + value + '</option>';
+                            });
+                            str += '</select>';
+                        }
+                  })
+                $('#attrs').html(str)
             }
-        })
-    });
+        }
+    })
+});
 </script>
 
