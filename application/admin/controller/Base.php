@@ -74,5 +74,6 @@ class Base extends Controller
         if(!in_array($auth_id,$role_auth_ids)){
              $this->error('没有权限');
         }
+        return true;
     }
 }
