@@ -9,8 +9,8 @@ class Goods extends Base
 {
     public function index()
     {
-        //$list = \app\admin\model\Goods::order('id desc')->paginate(10);
-		$list = Db::name('goods')->order('id desc')->paginate(10);
+        $list = \app\admin\model\Goods::order('id desc')->paginate(10);
+		//$list = Db::name('goods')->order('id desc')->paginate(10);
         return view('index',['list'=>$list]);
     }
 
@@ -59,6 +59,7 @@ class Goods extends Base
         $res = \app\admin\model\Goods::create($data,true);//dump($res);die;
         $this->upload_pics($res['id']);
         //商品属性入库
+        $goodsattr = [];
         foreach ($data['attr_value'] as $k=>$v){
             foreach ($v as $value){
                  $row = [
@@ -83,13 +84,13 @@ class Goods extends Base
             //查询所有的一级分类信息
             $cate_one_all = Category::where('pid',0)->select();
             //查询商品所属的三级分类信息（pid 就是所属的二级分类id） $cate_three['pid']
-            $cate_three = \app\admin\model\Category::find($info['cate_id']);
+            $cate_three = Category::find($info['cate_id']);
             //查询商品所属的二级分类信息（pid 就是所属的一级分类id） $cate_two['pid']
-            $cate_two = \app\admin\model\Category::find($cate_three['pid']);
+            $cate_two = Category::find($cate_three['pid']);
             //查询商品所属一级分类下所有的二级分类
-            $cate_two_all = \app\admin\model\Category::where('pid', $cate_two['pid'])->select();
+            $cate_two_all = Category::where('pid', $cate_two['pid'])->select();
             //查询商品所属二级分类下所有的三级分类
-            $cate_three_all = \app\admin\model\Category::where('pid', $cate_three['pid'])->select();
+            $cate_three_all = Category::where('pid', $cate_three['pid'])->select();
             //查询商品相册
             $goodspics = \app\admin\model\Goodspics::where('goods_id',$goods_id)->select();
             $type = \app\admin\model\Type::select();

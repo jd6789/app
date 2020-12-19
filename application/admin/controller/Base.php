@@ -2,6 +2,8 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Db;
+use app\admin\model\Auth;
+use app\admin\model\Role;
 class Base extends Controller
 {
     //构造方法
@@ -22,22 +24,26 @@ class Base extends Controller
     //查询当前管理员的权限信息
     public function getAuth(){
         //从session中查询当前管理员的角色id
-        $manager_info = request()->session('manager_info');
+        $manager_info = session('manager_info');
         $role_id = $manager_info['role_id'];
+        $auth = new Auth();
+        $role = new Role();
         //超级管理员查询所有权限
         if($role_id == 1){
             //查询所有的顶级权限
-            $auth_top = \app\admin\model\Auth::where(['pid'=>0,'is_nav'=>1])->select();
+            $auth_top = $auth->where(['pid'=>0,'is_nav'=>1])->select();
             //查询所有的子级权限
-            $auth_son = Db::query("SELECT * FROM `tpshop_auth` WHERE `pid` > 0 AND `is_nav` = 1");
+            //$auth_son = Db::query("SELECT * FROM `tpshop_auth` WHERE `pid` > 0 AND `is_nav` = 1");
+            $auth_son = $auth->where('pid','>',0)->where('is_nav',1)->select();
         }else{
             //普通管理员查询所拥有的权限
-            $role_info =\app\admin\model\Role::find($role_id);
+            $role_info =$role->find($role_id);
             $role_auth_ids = $role_info['role_auth_ids'];
             //查询所有的顶级权限
-            $auth_top = \app\admin\model\Auth::where(['id'=>['in',$role_auth_ids],'is_nav'=>1,'pid'=>0])->select();
+            $auth_top = $auth->where(['id'=>['in',$role_auth_ids],'is_nav'=>1,'pid'=>0])->select();
             //查询所有的子级权限
-            $auth_son = Db::query("SELECT * FROM `tpshop_auth` WHERE `pid` > 0 AND `is_nav` = 1 AND `id` in ($role_auth_ids)");
+            //$auth_son = Db::query("SELECT * FROM `tpshop_auth` WHERE `pid` > 0 AND `is_nav` = 1 AND `id` in ($role_auth_ids)");
+            $auth_son = $auth->where('pid','>',0)->where('is_nav',1)->where('id','in',$role_auth_ids)->select();
         }
             $this->assign('auth_top',$auth_top);
             $this->assign('auth_son',$auth_son);
@@ -54,15 +60,15 @@ class Base extends Controller
         }
         $controller = request()->controller();//首字母大写
         $action = request()->action();//首字母小写(判断和查询数据库不区分大小写)
-        if($controller == 'index' && $action == 'index'){
+        if($controller == 'Index' && $action == 'index'){
              //首页不验证权限
              return true;
         }
         //查询当前角色拥有的role_auth_ids
-        $role = \app\admin\model\Role::find($role_id);
+        $role = Role::find($role_id);
         $role_auth_ids = explode(',',$role['role_auth_ids']);
         //查询当前访问的权限id
-        $auth = \app\admin\model\Auth::where(['auth_c'=>$controller,'auth_a'=>$action])->find();
+        $auth = Auth::where(['auth_c'=>$controller,'auth_a'=>$action])->find();
         $auth_id = $auth['id'];
         //判断权限id是否在role_auth_ids中
         if(!in_array($auth_id,$role_auth_ids)){

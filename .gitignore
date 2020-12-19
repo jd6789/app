@@ -1,7 +1,10 @@
 /.idea
-/.vscode
-/vendor
+/thinkphp/
+/vendor/
+/runtime/
 *.log
-thinkphp
-.env
-.DS_Store
+LICENSE.txt
+composer.json
+composer.lock
+/config/database.php
+/public/uploads
