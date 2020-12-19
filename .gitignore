@@ -8,3 +8,4 @@ composer.json
 composer.lock
 /config/database.php
 /public/uploads
+.DS_Store

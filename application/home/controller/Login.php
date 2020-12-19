@@ -4,6 +4,7 @@ namespace app\home\controller;
 
 use think\Controller;
 use think\Request;
+use app\home\model\User;
 
 class Login extends Controller
 {
@@ -92,19 +93,21 @@ class Login extends Controller
     public function dologin()
     {
         //接收数据
-        $data = request()->param();
+        $data = $this->request->param();
         //查user表
-        $user = \app\home\model\User::where('username',$data['username'])->find();
+        $user_model = new User();
+        $user = $user_model->where('username',$data['username'])->find();
         if(!$user){
             $this->error('用户名不存在');
         }
-        if($user['password'] != encpypt_password($data['password'])){
+        //校验密码
+        if(encpypt_password($data['password']) != $user['password']){
             $this->error('密码错误');
         }
-        session('user_info',$user->toArray());
+        session('user_info',$user);
         //cookie中购物车数据写入数据库
         \app\home\model\Cart::cookieToDb();
-        $back_url = session('back_url') ? session('back_url'):'/';
+        $back_url = session('back_url') ? session('back_url') : '/';
         $this->success('登陆成功',$back_url,1);
     }
 

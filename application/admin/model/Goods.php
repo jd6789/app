@@ -11,4 +11,8 @@ class Goods extends Model
      //设置软删除字段名称
      protected $deleteTime = 'delete_time';
 
+//     public function getCreateTimeAttr($value)
+//     {
+//          return date("Y-m-d h:i",$value);
+//     }
 }

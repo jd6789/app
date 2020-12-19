@@ -8,6 +8,9 @@ class Login extends Controller
 {
     public  function  login(){
         if(request()->isGet()){
+            if(session('manager_info')){
+                return redirect('index/index');
+            }
             //展示登录页
             //临时关闭模板布局
             $this->view->engine->layout(false);
@@ -16,6 +19,7 @@ class Login extends Controller
             //提交表单
             //接收参数
             $data = request()->param();
+            //dump($data);die;
             //校验验证码
             if(!captcha_check($data['code'])){
                 $this->error('验证码错误');
